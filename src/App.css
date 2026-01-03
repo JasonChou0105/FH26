@@ -15,7 +15,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: linear-gradient(135deg, #000000, #0e001f);
+  background: linear-gradient(135deg, #0e001f, #14000d);
   filter: blur(60px);
   transform: scale(1.15); /* prevents blur edges */
   z-index: -1;
