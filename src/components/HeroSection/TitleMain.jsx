@@ -1,6 +1,6 @@
 export default function TitleMain() {
   return (
-    <div className="relative mt-32 ml-24 md:mt-40 md:ml-36 lg:mt-54 lg:ml-48 text-white">
+    <div className="relative mt-24 ml-8 sm:mt-24 sm:ml-24 md:mt-32 md:ml-36 lg:mt-54 lg:ml-48 text-white">
       <span
         className="absolute inset-0 text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight
                text-fuchsia-800
@@ -16,7 +16,7 @@ export default function TitleMain() {
       >
         FraserHacks26
       </span>
-      <h1 className="text-5xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-fuchsia-300 to-purple-500 ">
+      <h1 className="text-4xl md:text-6xl xl:text-7xl 2xl:text-8xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-100 via-fuchsia-300 to-purple-500 ">
         FraserHacks26
       </h1>
       <div className="text-base md:text-lg lg:text-xl xl:text-2xl">

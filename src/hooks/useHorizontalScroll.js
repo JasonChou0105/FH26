@@ -68,7 +68,9 @@ export const useHorizontalScroll = () => {
 
   // Touch tracking for swipe gestures
   const lastTouchX = useRef(null);
+  const lastTouchY = useRef(null);
   const touchStartX = useRef(null);
+  const touchStartY = useRef(null);
 
   // Wheel handler
   useEffect(() => {
@@ -96,37 +98,71 @@ export const useHorizontalScroll = () => {
     };
 
     const handleTouchStart = (event) => {
-      if (isHorizontalMode && !allowNavbarScroll && event.touches.length === 1) {
+      if (event.touches.length === 1 && scrollApi?.el) {
         touchStartX.current = event.touches[0].clientX;
+        touchStartY.current = event.touches[0].clientY;
         lastTouchX.current = event.touches[0].clientX;
+        lastTouchY.current = event.touches[0].clientY;
       }
     };
 
     const handleTouchMove = (event) => {
-      if (isHorizontalMode && !allowNavbarScroll && event.touches.length === 1 && lastTouchX.current !== null) {
-        event.preventDefault();
-        event.stopPropagation();
-
+      if (event.touches.length === 1 && scrollApi?.el && lastTouchX.current !== null && lastTouchY.current !== null) {
         const currentX = event.touches[0].clientX;
+        const currentY = event.touches[0].clientY;
         const deltaX = currentX - lastTouchX.current;
-        lastTouchX.current = currentX;
+        const deltaY = currentY - lastTouchY.current;
+        
+        // Determine if swipe is primarily horizontal or vertical
+        const absDeltaX = Math.abs(deltaX);
+        const absDeltaY = Math.abs(deltaY);
+        const isHorizontalSwipe = absDeltaX > absDeltaY;
 
-        const currentOffset = targetHorizontalOffset.current;
-        // Convert pixel delta to horizontal scroll delta (negative because swipe left = scroll right)
-        const horizontalDelta = -deltaX * scrollDeltaScale * 10; // Scale factor for touch sensitivity
+        if (isHorizontalSwipe && isHorizontalMode && !allowNavbarScroll) {
+          // Horizontal swipe in horizontal mode - scroll horizontally
+          event.preventDefault();
+          event.stopPropagation();
 
-        scrollDirectionHorizontal.current = deltaX < 0 ? "right" : "left";
+          lastTouchX.current = currentX;
+          lastTouchY.current = currentY;
 
-        targetHorizontalOffset.current = Math.max(
-          minOffset,
-          Math.min(maxOffset, currentOffset + horizontalDelta)
-        );
+          const currentOffset = targetHorizontalOffset.current;
+          // Convert pixel delta to horizontal scroll delta (negative because swipe left = scroll right)
+          const horizontalDelta = -deltaX * scrollDeltaScale * 10; // Scale factor for touch sensitivity
+
+          scrollDirectionHorizontal.current = deltaX < 0 ? "right" : "left";
+
+          targetHorizontalOffset.current = Math.max(
+            minOffset,
+            Math.min(maxOffset, currentOffset + horizontalDelta)
+          );
+        } else if (!isHorizontalSwipe) {
+          // Vertical swipe - scroll vertically
+          event.preventDefault();
+          event.stopPropagation();
+
+          lastTouchX.current = currentX;
+          lastTouchY.current = currentY;
+
+          // Scroll vertically (swipe up = scroll down, swipe down = scroll up)
+          const scrollAmount = -deltaY * 1.5; // Scale factor for vertical scroll speed (negative so swipe up scrolls down)
+          scrollApi.el.scrollBy({
+            top: scrollAmount,
+            behavior: "auto"
+          });
+        } else {
+          // Update tracking even if we don't handle it
+          lastTouchX.current = currentX;
+          lastTouchY.current = currentY;
+        }
       }
     };
 
     const handleTouchEnd = () => {
       lastTouchX.current = null;
+      lastTouchY.current = null;
       touchStartX.current = null;
+      touchStartY.current = null;
     };
 
     window.addEventListener("wheel", handleWheel, { passive: false });
