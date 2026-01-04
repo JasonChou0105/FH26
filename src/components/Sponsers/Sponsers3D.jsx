@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { Text, shaderMaterial } from "@react-three/drei";
 import SponsorTile3D from "./SponsersTile3D";
 import { extend, useThree } from "@react-three/fiber";
+import Astronaut from "../3dAssets/Astronaut";
 
 const sponsors = [
   // GOLD (2)
@@ -237,5 +238,11 @@ export default function Sponsors3D({ position = [0, -16, 0] }) {
     position[2]
   ];
 
-  return <group position={adjustedPosition} scale={tileScale}>{nodes}</group>;
+  return <group position={adjustedPosition} scale={tileScale}>{nodes}         
+  <Astronaut
+  position={[3, 7, 1]}
+  lightOffset={[-2, -3, 2]}
+  intensity={1}
+  scale={0.00025}
+/></group>;
 }

@@ -70,7 +70,7 @@ export default function App() {
             </section>
             <section
               className="flex flex-row items-start justify-between"
-              style={{ height: "100vh", width: "180vw" }}
+              style={{ height: "100vh", width: "200vw" }}
             >
               <RecapText />
               <RecapProjects />

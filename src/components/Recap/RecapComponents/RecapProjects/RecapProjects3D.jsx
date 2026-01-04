@@ -39,24 +39,14 @@ function RecapProjects3D() {
         />
 
         {/* Satellites scattered on left */}
-        <Satellite1
-          position={[-4, 1, 2]}
-          lightOffset={[0.3, 0.4, -0.6]}
-          scale={0.008}
-          intensity={0.4}
-        />
+
         <Satellite1
           position={[-6, -1, 2]}
           lightOffset={[0.3, 0.4, -0.6]}
           scale={0.008}
           intensity={0.4}
         />
-        <Satellite2
-          position={[-3, -2.5, -1.5]}
-          lightOffset={[-0.2, 0.5, 0.7]}
-          scale={0.015}
-          intensity={0.6}
-        />
+
         <Satellite2
           position={[-2, 3.5, 1]}
           lightOffset={[0.4, -0.3, -0.5]}

@@ -49,7 +49,9 @@ export const useHorizontalScroll = () => {
     HORIZONTAL_SCROLL_CONFIG;
 
   const maxOffset = viewport.width * 1.5;
+  const minOffset = -viewport.width * 2;
   const initialOffset = viewport.width * 1.5;
+  console.log(minOffset, maxOffset, initialOffset);
 
   const [isHorizontalMode, setIsHorizontalMode] = useState(false);
   const [horizontalOffset, setHorizontalOffset] = useState(initialOffset);
@@ -63,6 +65,10 @@ export const useHorizontalScroll = () => {
   useEffect(() => {
     setSharedOffset(initialOffset);
   }, [initialOffset]);
+
+  // Touch tracking for swipe gestures
+  const lastTouchX = useRef(null);
+  const touchStartX = useRef(null);
 
   // Wheel handler
   useEffect(() => {
@@ -79,7 +85,7 @@ export const useHorizontalScroll = () => {
         scrollDirectionHorizontal.current = deltaY > 0 ? "right" : "left";
 
         targetHorizontalOffset.current = Math.max(
-          -maxOffset,
+          minOffset,
           Math.min(maxOffset, currentOffset + horizontalDelta)
         );
 
@@ -89,8 +95,51 @@ export const useHorizontalScroll = () => {
       }
     };
 
+    const handleTouchStart = (event) => {
+      if (isHorizontalMode && !allowNavbarScroll && event.touches.length === 1) {
+        touchStartX.current = event.touches[0].clientX;
+        lastTouchX.current = event.touches[0].clientX;
+      }
+    };
+
+    const handleTouchMove = (event) => {
+      if (isHorizontalMode && !allowNavbarScroll && event.touches.length === 1 && lastTouchX.current !== null) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        const currentX = event.touches[0].clientX;
+        const deltaX = currentX - lastTouchX.current;
+        lastTouchX.current = currentX;
+
+        const currentOffset = targetHorizontalOffset.current;
+        // Convert pixel delta to horizontal scroll delta (negative because swipe left = scroll right)
+        const horizontalDelta = -deltaX * scrollDeltaScale * 10; // Scale factor for touch sensitivity
+
+        scrollDirectionHorizontal.current = deltaX < 0 ? "right" : "left";
+
+        targetHorizontalOffset.current = Math.max(
+          minOffset,
+          Math.min(maxOffset, currentOffset + horizontalDelta)
+        );
+      }
+    };
+
+    const handleTouchEnd = () => {
+      lastTouchX.current = null;
+      touchStartX.current = null;
+    };
+
     window.addEventListener("wheel", handleWheel, { passive: false });
-    return () => window.removeEventListener("wheel", handleWheel);
+    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: false });
+    window.addEventListener("touchend", handleTouchEnd, { passive: true });
+    
+    return () => {
+      window.removeEventListener("wheel", handleWheel);
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
   }, [isHorizontalMode, maxOffset, scrollDeltaScale]);
 
   useFrame(() => {
@@ -122,7 +171,7 @@ export const useHorizontalScroll = () => {
       const atRightBoundary =
         scrollDirectionHorizontal.current === "right" &&
         scrollDirection.current !== "up" &&
-        horizontalOffset <= -maxOffset + 0.1;
+        horizontalOffset <= minOffset + 0.1;
 
       if (atLeftBoundary || atRightBoundary) {
         setIsHorizontalMode(false);
@@ -142,11 +191,11 @@ export const useHorizontalScroll = () => {
       if (!inRecapEntryExitBounds) {
         if (
           scrollDirection.current === "down" &&
-          horizontalOffset > -maxOffset
+          horizontalOffset > minOffset
         ) {
-          setHorizontalOffset(-maxOffset);
-          setSharedOffset(-maxOffset);
-          targetHorizontalOffset.current = -maxOffset;
+          setHorizontalOffset(minOffset);
+          setSharedOffset(minOffset);
+          targetHorizontalOffset.current = minOffset;
         } else if (
           scrollDirection.current === "up" &&
           horizontalOffset < maxOffset

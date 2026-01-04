@@ -1,15 +1,16 @@
 import RecapTextbox from "./RecapTextbox";
 import { useHorizontalScroll } from "../../../../hooks/useHorizontalScroll";
+import { useThree } from '@react-three/fiber';
 
 function RecapText() {
   const { horizontalOffset } = useHorizontalScroll(false);
-
+  const { viewport } = useThree();
   const text1 = `Praesentium nam fugit enim cupiditate iste mollitia eum hic architecto provident facilis perferendis modi ab esse, optio aut, alias dignissimos beatae iure necessitatibus. Voluptatibus eos iste accusamus labore, officiis omnis!`;
 
   const text2 = `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe consectetualias tenetur! Eveniet dolorum quo commodi libero aut vero quasi? Sunt error odit eos facere asperiores repellendus eaque, consequatur placeat? Incidunt debitis consectetur explicabo architecto assumenda eaque molestias neque libero aliquid possimus.`;
 
   // Convert 3D units to CSS pixels (adjust multiplier as needed)
-  const translateX = horizontalOffset * 50; // Adjust this multiplier to match your 3D scale
+  const translateX = horizontalOffset * viewport.factor / 2.2;
 
   return (
     <div

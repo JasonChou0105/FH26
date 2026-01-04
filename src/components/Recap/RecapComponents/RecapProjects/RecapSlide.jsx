@@ -29,7 +29,7 @@ function NavigationButtons({ swiperRef }) {
 function RecapSlide({ projects, swiperRef, swiperWrapperRef, translateX }) {
   return (
     <div
-      className="w-full relative"
+      className="w-full"
       style={{
         transform: `translateX(${translateX * 0.1}px)`,
         pointerEvents: "auto",
@@ -64,7 +64,7 @@ function RecapSlide({ projects, swiperRef, swiperWrapperRef, translateX }) {
               <SwiperSlide key={index}>
                 <GlassContainer
                   translateX={0}
-                  className="relative z-20 flex flex-row py-4 px-8 md:py-6 md:px-12 lg:py-8 lg:px-16"
+                  className="relative z-20 flex flex-row py-4 px-8 md:py-5 md:px-10 lg:py-6 lg:px-12"
                 >
                   <div className="pr-2 md:pr-3 lg:pr-4 flex-shrink-0">
                     <img
