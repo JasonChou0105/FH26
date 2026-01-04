@@ -116,15 +116,16 @@ export const useHorizontalScroll = () => {
         const absDeltaX = Math.abs(deltaX);
         const absDeltaY = Math.abs(deltaY);
         const isVerticalSwipe = absDeltaY > absDeltaX;
+        
+        const scrollProgress = scroll?.offset || 0;
+        const { start, end, entryBuffer } = recapSection;
+        const inRecapSection =
+          scrollProgress > start - entryBuffer &&
+          scrollProgress < end + entryBuffer;
 
         if (isVerticalSwipe && isHorizontalMode && !allowNavbarScroll) {
           // Check if we're at boundaries - if so, allow vertical scroll to exit horizontal mode
           const currentOffset = targetHorizontalOffset.current;
-          const scrollProgress = scroll?.offset || 0;
-          const { start, end, entryBuffer } = recapSection;
-          const inRecapSection =
-            scrollProgress > start - entryBuffer &&
-            scrollProgress < end + entryBuffer;
 
           // Set scroll direction based on touch movement
           scrollDirection.current = deltaY > 0 ? "down" : "up";
@@ -149,25 +150,29 @@ export const useHorizontalScroll = () => {
               return; // Exit early to allow normal vertical scrolling
             }
 
+            // Not at boundary - vertical swipe controls horizontal scroll
+            event.preventDefault();
+            event.stopPropagation();
+
+            lastTouchX.current = currentX;
+            lastTouchY.current = currentY;
+
+            // Convert vertical delta to horizontal scroll delta
+            // Swipe up (negative deltaY) moves left (negative horizontalDelta)
+            // Swipe down (positive deltaY) moves right (positive horizontalDelta)
+            const horizontalDelta = deltaY * scrollDeltaScale * 10; // Scale factor for touch sensitivity
+
+            targetHorizontalOffset.current = Math.max(
+              minOffset,
+              Math.min(maxOffset, currentOffset + horizontalDelta)
+            );
+          } else {
+            // Not in recap section - allow normal scrolling
+            lastTouchX.current = currentX;
+            lastTouchY.current = currentY;
           }
-          // Not at boundary - vertical swipe controls horizontal scroll
-          event.preventDefault();
-          event.stopPropagation();
-
-          lastTouchX.current = currentX;
-          lastTouchY.current = currentY;
-
-          // Convert vertical delta to horizontal scroll delta
-          // Swipe up (negative deltaY) moves left (negative horizontalDelta)
-          // Swipe down (positive deltaY) moves right (positive horizontalDelta)
-          const horizontalDelta = deltaY * scrollDeltaScale * 10; // Scale factor for touch sensitivity
-
-          targetHorizontalOffset.current = Math.max(
-            minOffset,
-            Math.min(maxOffset, currentOffset + horizontalDelta)
-          );
-        } else if (!isHorizontalMode && isVerticalSwipe) {
-          // Not in horizontal mode - scroll vertically to update scroll progress (like wheel)
+        } else if (!isHorizontalMode && isVerticalSwipe && inRecapSection) {
+          // Only handle custom scrolling when in recap section
           // Set scroll direction based on touch movement
           scrollDirection.current = deltaY > 0 ? "down" : "up";
 
@@ -178,13 +183,13 @@ export const useHorizontalScroll = () => {
           lastTouchY.current = currentY;
 
           // Scroll vertically to update scroll progress (swipe up = scroll down)
-          const scrollAmount = -deltaY * 1.5; // Scale factor for scroll speed
+          const scrollAmount = -deltaY * 0.8; // Scale factor for scroll speed
           scrollApi.el.scrollBy({
             top: scrollAmount,
             behavior: "auto"
           });
         } else {
-          // Update tracking even if we don't handle it
+          // Update tracking even if we don't handle it (outside recap section)
           lastTouchX.current = currentX;
           lastTouchY.current = currentY;
         }
