@@ -121,7 +121,7 @@ export default function SponsorTile3D({ sponsor, w, h, x, y, z }) {
       ) : (
         <Text
           position={[0, 0, frontZ]}
-          font="/fonts/Roboto-Black.ttf"
+          font="/fonts/PixelifySans-Medium.ttf"
           fontSize={Math.min(w, h) * 0.22}
           maxWidth={w * 0.85}
           anchorX="center"

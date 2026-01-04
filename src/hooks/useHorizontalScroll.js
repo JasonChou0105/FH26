@@ -8,8 +8,8 @@ const HORIZONTAL_SCROLL_CONFIG = {
   transitionSpeed: 0.05,
   scrollDeltaScale: 0.01,
   recapSection: {
-    start: 0.33,
-    end: 0.34,
+    start: 0.26,
+    end: 0.27,
     entryBuffer: 0.08,
   },
 };
@@ -235,12 +235,12 @@ export const useHorizontalScroll = () => {
       const atLeftBoundary =
         scrollDirectionHorizontal.current === "left" &&
         scrollDirection.current !== "down" &&
-        horizontalOffset >= maxOffset - 0.2;
+        horizontalOffset >= maxOffset - 0.1;
 
       const atRightBoundary =
         scrollDirectionHorizontal.current === "right" &&
         scrollDirection.current !== "up" &&
-        horizontalOffset <= minOffset + 0.2;
+        horizontalOffset <= minOffset + 0.1;
 
       if (atLeftBoundary || atRightBoundary) {
         setIsHorizontalMode(false);

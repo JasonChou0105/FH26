@@ -5,9 +5,9 @@ import { useThree } from '@react-three/fiber';
 function RecapText() {
   const { horizontalOffset } = useHorizontalScroll(false);
   const { viewport } = useThree();
-  const text1 = `Praesentium nam fugit enim cupiditate iste mollitia eum hic architecto provident facilis perferendis modi ab esse, optio aut, alias dignissimos beatae iure necessitatibus. Voluptatibus eos iste accusamus labore, officiis omnis!`;
+  const text1 = `Build things that actually work. Things you understand end to end. This site is a place to experiment, learn, and ship ideas without shortcuts. Every detail is intentional, and every project exists to get better at the craft.`;
 
-  const text2 = `Lorem ipsum, dolor sit amet consectetur adipisicing elit. Saepe consectetualias tenetur! Eveniet dolorum quo commodi libero aut vero quasi? Sunt error odit eos facere asperiores repellendus eaque, consequatur placeat? Incidunt debitis consectetur explicabo architecto assumenda eaque molestias neque libero aliquid possimus.`;
+  const text2 = `Create lasting memories by building together. A hackathon isn’t just about the final project, but the late nights, small wins, and shared problem-solving along the way. You come to learn, collaborate, and try ideas that might not work at first. Those moments, and the people you build them with, are what stay with you long after the event ends.`
 
   // Convert 3D units to CSS pixels (adjust multiplier as needed)
   const translateX = horizontalOffset * viewport.factor / 2.2;

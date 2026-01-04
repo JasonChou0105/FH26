@@ -19,9 +19,9 @@ function RecapProjects() {
 
     // Intro section data
     const introData = {
-        image: "/images/FH24_3.jpeg",
+        image: "/images/FH24_4.jpeg",
         title: "Featured Projects",
-        description: "Explore the innovative projects created during this hackathon. Each project represents creativity, dedication, and technical excellence."
+        description: "Explore finalist projects created during this hackathon!"
     };
 
     // Projects data
@@ -29,17 +29,20 @@ function RecapProjects() {
         {
             image: "/images/Projects/FraserhacksRhythmConductor.jpg",
             makerName: "Yang Xue",
-            projectName: "RhythmConductor"
+            projectName: "RhythmConductor",
+            link: "https://devpost.com/software/rhythmconductor"
         },
         {
             image: "/images/Projects/FraserhacksLogicraft.png",
             makerName: "Creator Name",
-            projectName: "Logicraft"
+            projectName: "Logicraft",
+            link: "https://devpost.com/software/logicraft"
         },
         {
             image: "/images/Projects/FraserhacksMartialVision.jpg",
             makerName: "Creator Name",
-            projectName: "MartialVision"
+            projectName: "MartialVision",
+            link: "https://devpost.com/software/martialvision"
         }
     ];
 

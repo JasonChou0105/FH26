@@ -96,7 +96,7 @@ const renderText = (text, position, fontSize = 0.3) => (
     color="white"
     anchorX="center"
     anchorY="middle"
-    font="/fonts/Bitcount.ttf"
+    font="/fonts/PixelifySans-Medium.ttf"
     maxWidth={2.5}
   >
     {text}

@@ -138,7 +138,7 @@ export default function Sponsors3D({ position = [0, -16, 0] }) {
   const grouped = useMemo(() => groupByTier(sponsors), []);
   
   // Scale tiles smaller on small screens (viewport.width < 8 is roughly < 768px)
-  const tileScale = viewport.width < 8 ? 0.4 : (viewport.width < 10 ? 0.6 : (viewport.width < 12 ? 0.8:1));
+  const tileScale = viewport.width < 6 ? 0.2 :(viewport.width < 8 ? 0.4 : (viewport.width < 10 ? 0.6 : (viewport.width < 12 ? 0.8:1)));
 
   // Increase height proportionally as scale decreases (inverse relationship)
   // When scale is 0.4, height multiplier is 1/0.4 = 2.5, when scale is 1.0, height multiplier is 1.0
@@ -175,10 +175,10 @@ export default function Sponsors3D({ position = [0, -16, 0] }) {
 
     nodes.push(
       <Text
-        font="/fonts/Roboto-Black.ttf"
+        font="/fonts/PixelifySans-Medium.ttf"
         key={`${tier}-title`}
         position={[0, cursorY, 0]}
-        fontSize={0.42}
+        fontSize={1 }
         anchorX="center"
         anchorY="middle"
         color="#ffffff"

@@ -62,26 +62,33 @@ function RecapSlide({ projects, swiperRef, swiperWrapperRef, translateX }) {
           >
             {projects.map((project, index) => (
               <SwiperSlide key={index}>
-                <GlassContainer
-                  translateX={0}
-                  className="relative z-20 flex flex-row py-4 px-8 md:py-5 md:px-10 lg:py-6 lg:px-12"
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block cursor-pointer"
                 >
-                  <div className="pr-2 md:pr-3 lg:pr-4 flex-shrink-0">
-                    <img
-                      src={project.image}
-                      alt={project.projectName}
-                      className="object-cover rounded-lg h-32 w-44 md:h-40 md:w-56 lg:h-48 lg:w-64"
-                    />
-                  </div>
-                  <div className="flex flex-col justify-center gap-1 md:gap-2 lg:gap-2 flex-1">
-                    <div className="text-base md:text-lg lg:text-xl font-bold text-white">
-                      {project.projectName}
+                  <GlassContainer
+                    translateX={0}
+                    className="relative z-20 flex flex-row py-4 px-8 md:py-5 md:px-10 lg:py-6 lg:px-12 hover:bg-white/10 transition-colors duration-200"
+                  >
+                    <div className="pr-2 md:pr-3 lg:pr-4 flex-shrink-0">
+                      <img
+                        src={project.image}
+                        alt={project.projectName}
+                        className="object-cover rounded-lg h-32 w-44 md:h-40 md:w-56 lg:h-48 lg:w-64"
+                      />
                     </div>
-                    <div className="text-sm md:text-base opacity-70 text-white">
-                      {project.makerName}
+                    <div className="flex flex-col justify-center gap-1 md:gap-2 lg:gap-2 flex-1">
+                      <div className="text-base md:text-lg lg:text-xl font-bold text-white">
+                        {project.projectName}
+                      </div>
+                      <div className="text-sm md:text-base opacity-70 text-white">
+                        {project.makerName}
+                      </div>
                     </div>
-                  </div>
-                </GlassContainer>
+                  </GlassContainer>
+                </a>
               </SwiperSlide>
             ))}
           </Swiper>
