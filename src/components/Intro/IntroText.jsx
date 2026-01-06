@@ -32,11 +32,11 @@ export default function IntroText() {
       <div className="flex flex-col md:flex-row items-center justify-center">
         <div className="flex flex-col relative md:w-1/4 w-4/5">
           <div className="flex justify-center items-center md:items-start text-white text-2xl md:text-3xl lg:text-4xl flex flex-col mb-8 md:mb-10 lg:mb-12">
-            Welcome to the{" "}
+            Welcome to one of the{" "}
             <div className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-shadow-2xs tracking-widest">
               Largest
             </div>
-            Peel Hackathon
+            Peel Hackathons
           </div>
           <div className="text-gray-300 text-xs md:text-sm lg:text-lg leading-5 md:leading-6">
             FraserHacks is Mississauga's largest high school hackathon organized
